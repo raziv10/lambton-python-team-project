@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>NEW</title>
+
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- Google Fonts -->
+	<link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap" rel="stylesheet">
+
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+	<!-- Bootstrap -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+	<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='style.css') }}">
+
+</head>
+
+<body id="content">
+	<div class="results">
+	    <center>
+	      <h2 id="name" class="text-uppercase" style="color:mintcream;">{{title}} </h2>
+	    </center>
+	</div>
+	<br>
+
+<div id="mycontent">
+    <div id="mcontent">
+      <div class="poster-lg">
+        <img class="poster" style="border-radius: 40px;margin-left: 90px;" height="400" width="250" src={{poster}}>
+      </div>
+      <div class="poster-sm text-center">
+        <img class="poster" style="border-radius: 40px;margin-bottom: 5%;" height="400" width="250" src={{poster}}>
+      </div>
+        <div class="shadow p-1 ml-4 bg-white rounded" style="width:70%;border-radius: 50%">
+            <div id="details">
+        <br/>
+                <table class="table table-bordered">
+                     <thead class="thead-dark">
+                        <tr>
+                          <th scope="col">TITLE</th>
+                          <th scope="col">RATING</th>
+                          <th scope="col">GENRE</th>
+                          <th scope="col">DATE</th>
+                            <th scope="col">RUNTIME</th>
+                            <th scope="col">STATUS</th>
+                        </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+      <td>{{title}}</td>
+      <td>{{vote_average}}/10 </td>
+      <td>{{genres}}</td>
+        <td>{{release_date}}</td>
+      <td>{{runtime}}</td>
+      <td>{{status}}</td>
+
+
+    </tr>
+  </tbody>
+</table>
+                <div class="alert alert-info mr-3" role="alert">
+  <h6 id="overview" style="color:black;max-width: 85%">OVERVIEW: <br/><br/></h6>
+                    <div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-4">
+      <div id="summary">
+        <p class="collapse" id="collapseSummary">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc porttitor maximus laoreet. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. In hac habitasse platea dictumst. Suspendisse venenatis sollicitudin erat in gravida. Sed eget nisl tristique, commodo lectus sit amet, vulputate sem. Cras porttitor lorem ipsum, sit amet iaculis massa feugiat vitae. Curabitur sapien odio, ullamcorper tincidunt interdum vitae, vestibulum eu neque. Nam leo massa, fringilla eget mauris feugiat, auctor suscipit justo.
+        </p>
+        <a class="collapsed" data-toggle="collapse" href="#collapseSummary" aria-expanded="false" aria-controls="collapseSummary"></a>
+      </div></div></div>
+                    <p>
+                        {{overview}}
+                    </p>
+</div>
+
+
+
+      </div>
+        </div>
+
+    </div>
+</div>
+<br/>
+
+
+
+  <center>
+    {% if reviews %}
+    <h2 style="color:black">USER REVIEWS</h2>
+     <div class="col-md-12" style="margin: 0 auto; margin-top:25px;">
+        <table class="table table-bordered" bordercolor="white" style="color:white">
+            <thead class="thead-dark">
+                <tr>
+                    <th class="text-center" scope="col" style="width: 75%">Comments</th>
+                    <th class="text-center" scope="col">Sentiments</th>
+                </tr>
+            </thead>
+
+            <tbody>
+		      {% for review, status in reviews.items() if not reviews.hidden %}
+		      <tr style="background-color:grey;">
+
+              	  <td>{{review}}</td>
+	              <td><center>
+	                  {{status}} : 
+	                  {% if status =='Good' %}
+	                    &#128515;
+	                  {% else %}
+	                    &#128534;
+	                  {% endif %}
+	                </center>
+	              </td>
+          		</tr>
+      			{% endfor %}
+    		</tbody>
+ 		 </table>
+    </div>
+    {% else %}
+    <div style="color:black;">
+      <h1 style="color:black"> This movie is not released yet. Stay tuned! </h1>
+    </div>
+    {% endif %}
+  </center>
+
+      {% if movie_cards|length > 1 %}
+
+
+      <div class="movie" style="color: black;">
+      <center><h3>RECOMMENDED MOVIES FOR YOU</h3><h5>(Click any of the movies to get recommendation)</h5></center>
+    </div>
+
+    <div class="movie-content">
+      {% for poster, title in movie_cards.items() if not movie_cards.hidden %}
+        <div class="card" style="width: 15rem;" title="{{title}}" onclick="recommendcard(this)">
+          <div class="imghvr">
+            <img class="card-img-top" height="360" width="240" alt="{{title}} - poster" src={{poster}}>
+            <figcaption class="fig">
+              <button class="card-btn btn btn-danger"> Click Me </button>
+            </figcaption>
+           </div>
+          <div class="card-body">
+            <h5 class="card-title">{{title|capitalize}}</h5>
+          </div>
+        </div>
+    {% endfor %}
+    </div>
+
+    {% endif %}
+
+
+    </div>
+  </div>
+  
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script type="text/javascript" src="{{url_for('static', filename='recommend.js')}}"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+</body>
+
+</html>
